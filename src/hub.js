@@ -255,6 +255,12 @@ import { OAuthScreenContainer } from "./react-components/auth/OAuthScreenContain
 import { SignInMessages } from "./react-components/auth/SignInModal";
 import { ThemeProvider } from "./react-components/styles/theme";
 import { LogMessageType } from "./react-components/room/ChatSidebar";
+import { Web3ReactProvider } from '@web3-react/core'
+import { Web3Provider } from "@ethersproject/providers";
+
+function getLibrary(provider, connector) {
+  return new Web3Provider(provider);
+}
 
 const PHOENIX_RELIABLE_NAF = "phx-reliable";
 NAF.options.firstSyncSource = PHOENIX_RELIABLE_NAF;
@@ -338,7 +344,7 @@ function mountUI(props = {}) {
                 <OAuthScreenContainer oauthInfo={props.oauthInfo} />
               ) : props.roomUnavailableReason ? (
                 <ExitedRoomScreenContainer reason={props.roomUnavailableReason} />
-              ) : (
+              ) : (<Web3ReactProvider getLibrary={getLibrary}>
                 <UIRoot
                   {...{
                     scene,
@@ -350,7 +356,7 @@ function mountUI(props = {}) {
                     ...props,
                     ...routeProps
                   }}
-                />
+                /></Web3ReactProvider>
               )
             }
           />

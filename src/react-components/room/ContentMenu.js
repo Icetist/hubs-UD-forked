@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { joinChildren } from "../misc/joinChildren";
 import styles from "./ContentMenu.scss";
 import { ReactComponent as ObjectsIcon } from "../icons/Objects.svg";
+import { ReactComponent as NFTIcon } from "../icons/nft.svg";
 import { ReactComponent as PeopleIcon } from "../icons/People.svg";
 import { FormattedMessage } from "react-intl";
 
@@ -26,6 +27,17 @@ export function ObjectsMenuButton(props) {
       <ObjectsIcon />
       <span>
         <FormattedMessage id="content-menu.objects-menu-button" defaultMessage="Objects" />
+      </span>
+    </ContentMenuButton>
+  );
+}
+
+export function NFTMenuButton(props) {
+  return (
+    <ContentMenuButton {...props}>
+      <NFTIcon />
+      <span>
+        <FormattedMessage id="content-menu.nft-menu-button" defaultMessage="NFT" />
       </span>
     </ContentMenuButton>
   );

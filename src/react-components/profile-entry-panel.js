@@ -19,7 +19,8 @@ export default class ProfileEntryPanel extends Component {
     avatarId: PropTypes.string,
     onClose: PropTypes.func,
     onBack: PropTypes.func,
-    showBackButton: PropTypes.bool
+    showBackButton: PropTypes.bool,
+    unstoppable: PropTypes.bool
   };
 
   static defaultProps = {
@@ -62,7 +63,7 @@ export default class ProfileEntryPanel extends Component {
         hasAcceptedProfile: true
       },
       profile: {
-        displayName: this.state.displayName,
+        displayName: this.props.displayNameOverride ?this.props.displayNameOverride :this.state.displayName,
         avatarId: this.state.avatarId
       }
     });
@@ -135,7 +136,8 @@ export default class ProfileEntryPanel extends Component {
       },
       onSubmit: this.saveStateAndFinish,
       onClose: this.props.onClose,
-      onBack: this.props.onBack
+      onBack: this.props.onBack,
+      unstoppable:this.props.unstoppable
     };
 
     if (this.props.containerType === "sidebar") {

@@ -20,7 +20,12 @@ body.vr-mode-stretch {
     }
   }
 }
-
+#uauth-vanilla-ui-input{
+  color:black !important;
+}
+#uauth-vanilla-ui-input::placeholder{
+  color:black !important;
+}
 .a-enter-vr, .a-orientation-modal {
   display: none;
 }

@@ -50,7 +50,7 @@ import { MicSetupModalContainer } from "./room/MicSetupModalContainer";
 import { InvitePopoverContainer } from "./room/InvitePopoverContainer";
 import { MoreMenuPopoverButton, CompactMoreMenuButton, MoreMenuContextProvider } from "./room/MoreMenuPopover";
 import { ChatSidebarContainer, ChatContextProvider, ChatToolbarButtonContainer } from "./room/ChatSidebarContainer";
-import { ContentMenu, PeopleMenuButton, ObjectsMenuButton } from "./room/ContentMenu";
+import { ContentMenu, PeopleMenuButton, ObjectsMenuButton,NFTMenuButton } from "./room/ContentMenu";
 import { ReactComponent as CameraIcon } from "./icons/Camera.svg";
 import { ReactComponent as AvatarIcon } from "./icons/Avatar.svg";
 import { ReactComponent as AddIcon } from "./icons/Add.svg";
@@ -72,6 +72,7 @@ import { ReactComponent as InviteIcon } from "./icons/Invite.svg";
 import { PeopleSidebarContainer, userFromPresence } from "./room/PeopleSidebarContainer";
 import { ObjectListProvider } from "./room/useObjectList";
 import { ObjectsSidebarContainer } from "./room/ObjectsSidebarContainer";
+import { NFTSidebarContainer } from "./room/NFTSidebarContainer";
 import { ObjectMenuContainer } from "./room/ObjectMenuContainer";
 import { useCssBreakpoints } from "react-use-css-breakpoints";
 import { PlacePopoverContainer } from "./room/PlacePopoverContainer";
@@ -95,6 +96,10 @@ import { SpectatingLabel } from "./room/SpectatingLabel";
 import { SignInMessages } from "./auth/SignInModal";
 import { MediaDevicesEvents } from "../utils/media-devices-utils";
 
+
+// On login button click...
+
+
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
 const IN_ROOM_MODAL_ROUTER_PATHS = ["/media"];
@@ -113,9 +118,10 @@ const isMobile = AFRAME.utils.device.isMobile();
 const isMobileVR = AFRAME.utils.device.isMobileVR();
 const AUTO_EXIT_TIMER_SECONDS = 10;
 
+
 class UIRoot extends Component {
   willCompileAndUploadMaterials = false;
-
+ 
   static propTypes = {
     enterScene: PropTypes.func,
     exitScene: PropTypes.func,
@@ -197,7 +203,9 @@ class UIRoot extends Component {
     objectInfo: null,
     objectSrc: "",
     sidebarId: null,
-    presenceCount: 0
+    presenceCount: 0,
+    unstoppable:false,
+    unstoppableAuth:null
   };
 
   constructor(props) {
@@ -815,6 +823,26 @@ class UIRoot extends Component {
           roomName={this.props.hub.name}
           showJoinRoom={!this.state.waitingOnAudio && !this.props.entryDisallowed}
           onJoinRoom={() => {
+            this.setState({unstoppable:false})
+            if (promptForNameAndAvatarBeforeEntry || !this.props.forcedVREntryType) {
+              this.setState({ entering: true });
+              this.props.hubChannel.sendEnteringEvent();
+
+              if (promptForNameAndAvatarBeforeEntry) {
+                this.pushHistoryState("entry_step", "profile");
+              } else {
+                this.onRequestMicPermission();
+                this.pushHistoryState("entry_step", "audio");
+              }
+            } else {
+              this.handleForceEntry();
+            }
+          }}
+          onJoinUnstoppable={(status,authorization) => {
+      if(!status) return
+    
+              this.setState({ unstoppable: true });
+                this.setState({ unstoppableAuth: authorization });
             if (promptForNameAndAvatarBeforeEntry || !this.props.forcedVREntryType) {
               this.setState({ entering: true });
               this.props.hubChannel.sendEnteringEvent();
@@ -1054,7 +1082,8 @@ class UIRoot extends Component {
               <ProfileEntryPanel
                 {...props}
                 containerType="modal"
-                displayNameOverride={displayNameOverride}
+                displayNameOverride={this.state.unstoppable?this.state.unstoppableAuth?.sub:displayNameOverride}
+                unstoppable={this.state.unstoppable}
                 finished={() => {
                   if (this.props.forcedVREntryType) {
                     this.pushHistoryState();
@@ -1373,6 +1402,12 @@ class UIRoot extends Component {
                     {(!this.props.selectedObject ||
                       (this.props.breakpoint !== "sm" && this.props.breakpoint !== "md")) && (
                       <ContentMenu>
+                        {this.state.unstoppable && (
+                          <NFTMenuButton
+                            active={this.state.sidebarId === "NFT"}
+                            onClick={() => this.toggleSidebar("NFT")}
+                          />
+                        )}
                         {showObjectList && (
                           <ObjectsMenuButton
                             active={this.state.sidebarId === "objects"}
@@ -1450,6 +1485,11 @@ class UIRoot extends Component {
                         <ObjectsSidebarContainer
                           hubChannel={this.props.hubChannel}
                           onClose={() => this.setSidebar(null)}
+                        />
+                      )}
+                      {this.state.sidebarId === "NFT" && (
+                        <NFTSidebarContainer
+                               onClose={() => this.setSidebar(null)}
                         />
                       )}
                       {this.state.sidebarId === "people" && (

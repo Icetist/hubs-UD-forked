@@ -9,6 +9,7 @@ import { ReactComponent as AddIcon } from "../icons/Add.svg";
 import { ReactComponent as PenIcon } from "../icons/Pen.svg";
 import { ReactComponent as DuplicateIcon } from "../icons/Duplicate.svg";
 import { ReactComponent as SearchIcon } from "../icons/Search.svg";
+import { ReactComponent as EyeIcon } from "../icons/eye.svg";
 import { ReactComponent as HelpIcon } from "../icons/Help.svg";
 import { ReactComponent as ExternalLinkIcon } from "../icons/ExternalLink.svg";
 
@@ -229,6 +230,17 @@ export function MediaTile({ entry, processThumbnailUrl, onClick, onEdit, onShowS
             onClick={onShowSimilar}
           >
             <SearchIcon />
+          </TileAction>
+        )}
+         {entry.type === "nft_listing" && (
+          <TileAction
+            title={intl.formatMessage({
+              id: "media-tile.action.show-similar-avatars",
+              defaultMessage: "See on Opensea"
+            })}
+            
+          >
+            <EyeIcon />
           </TileAction>
         )}
         {entry.type === "avatar_listing" &&

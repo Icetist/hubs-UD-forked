@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Modal } from "../modal/Modal";
@@ -14,7 +14,10 @@ import { useCssBreakpoints } from "react-use-css-breakpoints";
 import { Column } from "../layout/Column";
 import { FormattedMessage } from "react-intl";
 import configs from "../../utils/configs";
+import LOGO from "../../assets/images/Unstoppable Domains-Sign-Mono-Dark.svg"
+import {useWeb3React} from '@web3-react/core'
 
+import {uauth} from '../connector'
 export function RoomEntryModal({
   appName,
   logoSrc,
@@ -22,6 +25,7 @@ export function RoomEntryModal({
   roomName,
   showJoinRoom,
   onJoinRoom,
+  onJoinUnstoppable,
   showEnterOnDevice,
   onEnterOnDevice,
   showSpectate,
@@ -30,8 +34,14 @@ export function RoomEntryModal({
   onOptions,
   ...rest
 }) {
+  
+    const {activate} = useWeb3React()
+  
+  
+  
   const breakpoint = useCssBreakpoints();
   const isHmc = configs.feature("show_cloud");
+  const [bgColor,setBgColor]=useState("#4b47ee")
   return (
     <Modal className={classNames(styles.roomEntryModal, className)} disableFullscreen {...rest}>
       <Column center className={styles.content}>
@@ -48,6 +58,30 @@ export function RoomEntryModal({
           <p>{roomName}</p>
         </div>
         <Column center className={styles.buttons}>
+        <Button preset="accent4" onClick={async ()=>  {
+          try{
+            await activate(uauth);
+            const authorization=await uauth.uauth.user()
+            if(authorization){
+              onJoinUnstoppable(true,authorization);
+            }
+            
+          }catch(e)
+          {
+            console.log(e.message)
+            onJoinUnstoppable(false,null);
+          }
+          
+        }}  style={{backgroundColor:bgColor,width:"200px"}}
+          onMouseEnter={()=>setBgColor('#0b24b3')}
+            onMouseLeave={()=>setBgColor("#4b47ee")}
+            onMouseDown={()=>setBgColor("#5361c7")}
+            onMouseUp={()=>setBgColor("#4b47ee")}
+            
+           
+            >
+        <img style={{height: "20px"}} src={LOGO} alt='UD Logo'/>        Login with Unstoppable
+            </Button >
           {showJoinRoom && (
             <Button preset="accent4" onClick={onJoinRoom}>
               <EnterIcon />

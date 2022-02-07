@@ -14,6 +14,7 @@ export function AvatarSettingsContent({
   avatarPreview,
   displayNamePattern,
   onChangeAvatar,
+  unstoppable,
   ...rest
 }) {
   return (
@@ -27,7 +28,7 @@ export function AvatarSettingsContent({
         required
         onChange={onChangeDisplayName}
         description={
-          <FormattedMessage
+         unstoppable?"": <FormattedMessage
             id="avatar-settings-content.display-name-description"
             defaultMessage="Alphanumerics, hyphens, underscores, and tildes. At least 3 characters, no more than 32"
           />

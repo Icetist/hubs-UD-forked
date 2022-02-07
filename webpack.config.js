@@ -297,7 +297,8 @@ module.exports = async (env, argv) => {
           { from: /^\/cloud/, to: "/cloud.html" },
           { from: /^\/verify/, to: "/verify.html" },
           { from: /^\/tokens/, to: "/tokens.html" },
-          { from: /^\/whats-new/, to: "/whats-new.html" }
+          { from: /^\/whats-new/, to: "/whats-new.html" },
+          { from: /^\/callback/, to: "/" }
         ]
       },
       before: function(app) {
@@ -667,7 +668,10 @@ module.exports = async (env, argv) => {
           GA_TRACKING_ID: process.env.GA_TRACKING_ID,
           POSTGREST_SERVER: process.env.POSTGREST_SERVER,
           UPLOADS_HOST: process.env.UPLOADS_HOST,
-          APP_CONFIG: appConfig
+          APP_CONFIG: appConfig,
+          CLIENT_ID: process.env.CLIENT_ID,
+          CLIENT_SECRET: process.env.CLIENT_SECRET,
+          REDIRECT_URIS: process.env.REDIRECT_URIS
         })
       })
     ]
