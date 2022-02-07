@@ -55,13 +55,17 @@ export function NFTSidebarContainer({ onClose }) {
         >
           <FormattedMessage id="coki" defaultMessage="Network" />
         </SelectProperty>
-      </div>
-      <MediaGrid
+        <MediaGrid
               isVariableWidth={true}
-              sm={false}
+              sm={true}
             >
       <MediaTile entry={entry} processThumbnailUrl={() => entry.images.preview.url} />
+      <MediaTile entry={entry} processThumbnailUrl={() => entry.images.preview.url} />
+      <MediaTile entry={entry} processThumbnailUrl={() => entry.images.preview.url} />
+      <MediaTile entry={entry} processThumbnailUrl={() => entry.images.preview.url} />
             </MediaGrid>
+      </div>
+   
       
     </NFTSidebar>
   );

@@ -230,13 +230,34 @@ export default class SceneEntryManager {
 
       return entity;
     };
+    const spawnNFTInfrontOfPlayer = (src, contentOrigin) => {
+      if (!this.hubChannel.can("spawn_and_move_media")) return;
+      const { entity, orientation } = addMedia(
+        src,
+        "#interactable-media-nft",
+        contentOrigin,
+        null,
+        !(src instanceof MediaStream),
+        true
+      );
+      orientation.then(or => {
+        entity.setAttribute("offset-relative-to", {
+          target: "#avatar-pov-node",
+          offset,
+          orientation: or
+        });
+      });
 
+      return entity;
+    };
     this.scene.addEventListener("add_media", e => {
       const contentOrigin = e.detail instanceof File ? ObjectContentOrigins.FILE : ObjectContentOrigins.URL;
 
       spawnMediaInfrontOfPlayer(e.detail, contentOrigin);
     });
-
+    this.scene.addEventListener("add_nft", e => {
+      spawnMediaInfrontOfPlayer(e, contentOrigin);
+    });
     this.scene.addEventListener("object_spawned", e => {
       this.hubChannel.sendObjectSpawnedEvent(e.detail.objectType);
     });

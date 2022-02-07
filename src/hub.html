@@ -537,7 +537,92 @@
                     </a-entity>
                 </a-entity>
             </template>
-
+            <template id="interactable-media-nft">
+                <a-entity
+                    class="interactable"
+                    body-helper="type: dynamic; mass: 1; collisionFilterGroup: 1; collisionFilterMask: 15;"
+                    owned-object-limiter="counter: #media-counter"
+                    set-unowned-body-kinematic
+                    is-remote-hover-target
+                    tags="isHandCollisionTarget: true; isHoldable: true; offersHandConstraint: true; offersRemoteConstraint: true; inspectable: true;"
+                    destroy-at-extreme-distances
+                    scalable-when-grabbed
+                    floaty-object="modifyGravityOnRelease: true; autoLockOnLoad: true;"
+                    set-yxz-order
+                    matrix-auto-update
+                    hoverable-visuals
+                    position-at-border__freeze="target:.freeze-menu"
+                    position-at-border__freeze-unprivileged="target:.freeze-unprivileged-menu"
+                    listed-media
+                >
+                    <a-entity class="ui interactable-ui">
+                        <a-entity class="freeze-menu" visibility-while-frozen="withinDistance: 100; withPermission: spawn_and_move_media">
+                           
+                            <a-entity is-remote-hover-target tags="singleActionButton:true;" mixin="rounded-text-button" open-nft="onlyOpenLink: true" position="0 -0.25 0.001">
+                                <a-entity text="value:open in Opensea; width:1.3; align:center;" text-raycast-hack position="0 0 0.02"></a-entity>
+                            </a-entity>
+                            <a-entity
+                                mixin="rounded-button"
+                                is-remote-hover-target
+                                tags="singleActionButton: true;"
+                                hide-when-pinned-and-forbidden="whenPinned: true"
+                                remove-networked-object-button
+                                position="0 -0.8 0.001">
+                                <a-entity
+                                    sprite="name: remove-action.png"
+                                    icon-button="image: remove-action.png; hoverImage: remove-action.png"
+                                    scale="0.165 0.165 0.165"
+                                    position="0 0 0.001"
+                                ></a-entity>
+                            </a-entity>
+                         
+                        </a-entity>
+                        <a-entity class="freeze-unprivileged-menu" visibility-while-frozen="withinDistance: 100; withoutPermission: spawn_and_move_media;">
+                            <a-entity mixin="rounded-text-button ui"
+                                is-remote-hover-target
+                                tags="singleActionButton: true; isHoverMenuChild: true;"
+                                local-refresh-media-button
+                                position="0 -0.6 0.001"
+                            >
+                                <a-entity text="value:refresh; width:1.75; align:center;"
+                                    text-raycast-hack
+                                    position="0 0 0.02">
+                                </a-entity>
+                            </a-entity>
+                            <a-entity is-remote-hover-target tags="singleActionButton:true;" mixin="rounded-text-button" open-media-button="onlyOpenLink: true" position="0 -0.25 0.001">
+                                <a-entity text="value:open in Opensea; width:1.75; align:center;" text-raycast-hack position="0 0 0.02"></a-entity>
+                            </a-entity>
+                            <a-entity
+                                mixin="rounded-action-button"
+                                is-remote-hover-target
+                                tags="singleActionButton:true;"
+                                mirror-media-button
+                                visibility-on-content-types="contentTypes: video/ audio/ image/ application/vnd.apple.mpegurl application/x-mpegurl application/pdf;"
+                                position="0 0 0.001">
+                                <a-entity
+                                    sprite
+                                    icon-button="image: inspect-action.png; hoverImage: inspect-action.png"
+                                    scale="0.165 0.165 0.165"
+                                    position="0 0 0.001"
+                                ></a-entity>
+                            </a-entity>
+                            <a-entity
+                                mixin="rounded-button"
+                                tags="isHoldable: true; holdableButton: true;"
+                                is-remote-hover-target
+                                inspect-button
+                                position="0 0.25 0.001">
+                                <a-entity
+                                    sprite
+                                    icon-button="image: focus-action.png; hoverImage: focus-action.png"
+                                    scale="0.165 0.165 0.165"
+                                    position="0 0 0.001"
+                                ></a-entity>
+                            </a-entity>
+                        </a-entity>
+                    </a-entity>
+                </a-entity>
+            </template>
             <template id="interactable-emoji">
                 <a-entity
                     class="interactable"

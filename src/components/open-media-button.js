@@ -88,3 +88,47 @@ AFRAME.registerComponent("open-media-button", {
     this.el.object3D.removeEventListener("interact", this.onClick);
   }
 });
+AFRAME.registerComponent("open-nft", {
+  schema: {
+    onlyOpenLink: { type: "boolean" }
+  },
+  init() {
+    this.label = this.el.querySelector("[text]");
+
+    this.updateSrc = async () => {
+      if (!this.targetEl.parentNode) return; // If removed
+      const mediaLoader = this.targetEl.components["media-loader"].data;
+      const src = (this.src = (mediaLoader.mediaOptions && mediaLoader.mediaOptions.href) || mediaLoader.src);
+      const visible = src && guessContentType(src) !== "video/vnd.hubs-webrtc";
+     
+
+      this.el.object3D.visible = !!visible;
+
+      if (visible) {
+        let label = "open in Opensea";
+       
+        this.label.setAttribute("text", "value", label);
+      }
+    };
+
+    this.onClick = async () => {
+      
+        window.open(this.src);
+   
+    };
+
+    NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {
+      this.targetEl = networkedEl;
+      this.targetEl.addEventListener("media_resolved", this.updateSrc, { once: true });
+      this.updateSrc();
+    });
+  },
+
+  play() {
+    this.el.object3D.addEventListener("interact", this.onClick);
+  },
+
+  pause() {
+    this.el.object3D.removeEventListener("interact", this.onClick);
+  }
+});

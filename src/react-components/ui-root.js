@@ -1402,7 +1402,7 @@ class UIRoot extends Component {
                     {(!this.props.selectedObject ||
                       (this.props.breakpoint !== "sm" && this.props.breakpoint !== "md")) && (
                       <ContentMenu>
-                        {this.state.unstoppable && (
+                        {this.state.unstoppable && showObjectList && (
                           <NFTMenuButton
                             active={this.state.sidebarId === "NFT"}
                             onClick={() => this.toggleSidebar("NFT")}
