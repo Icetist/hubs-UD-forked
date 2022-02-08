@@ -30,6 +30,8 @@ let isAdmin = false;
 configs.CLIENT_ID=process.env.CLIENT_ID;
 configs.CLIENT_SECRET=process.env.CLIENT_SECRET;
 configs.REDIRECT_URIS=process.env.REDIRECT_URIS;
+configs.MORALIS_KEY=process.env.MORALIS_KEY;
+configs.INFURA_ID=process.env.INFURA_ID;
 // Custom clients do not use <meta> tags for passing data, so if thumbnail_server meta tag exists, it is not a custom client
 const hasThumbnailServerMetaTag = !!document.querySelector("meta[name='env:thumbnail_server']");
 configs.IS_LOCAL_OR_CUSTOM_CLIENT = !hasThumbnailServerMetaTag;

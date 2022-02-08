@@ -5,7 +5,8 @@ import { changeHub } from "../change-hub";
 
 AFRAME.registerComponent("open-media-button", {
   schema: {
-    onlyOpenLink: { type: "boolean" }
+    onlyOpenLink: { type: "boolean" },
+    nft:{type:"string"}
   },
   init() {
     this.label = this.el.querySelector("[text]");
@@ -38,6 +39,7 @@ AFRAME.registerComponent("open-media-button", {
         }
         this.label.setAttribute("text", "value", label);
       }
+      this.nft=mediaLoader.nft
     };
 
     this.onClick = async () => {
@@ -47,8 +49,14 @@ AFRAME.registerComponent("open-media-button", {
 
       let hubId;
       if (this.data.onlyOpenLink) {
-        await exitImmersive();
-        window.open(this.src);
+        if(this.nft){
+          await exitImmersive();
+          window.open(this.nft);
+        }else{
+          await exitImmersive();
+          window.open(this.src);
+        }
+        
       } else if (await isLocalHubsAvatarUrl(this.src)) {
         const avatarId = new URL(this.src).pathname.split("/").pop();
         window.APP.store.update({ profile: { avatarId } });

@@ -228,7 +228,9 @@ module.exports = (env, argv) => {
           UPLOADS_HOST: process.env.UPLOADS_HOST,
           CLIENT_ID: process.env.CLIENT_ID,
 CLIENT_SECRET: process.env.CLIENT_SECRET,
-REDIRECT_URIS: process.env.REDIRECT_URIS
+REDIRECT_URIS: process.env.REDIRECT_URIS,
+MORALIS_KEY:process.env.MORALIS_KEY,
+INFURA_ID:process.env.INFURA_ID
         })
       })
     ]

@@ -7,17 +7,7 @@ import styles from "./ObjectsSidebar.scss";
 import { MediaTile } from "./MediaTiles";
 import { MediaGrid } from "./MediaGrid";
 import {uauth} from '../connector'
-const entry = {
-  images: {
-    preview: {
-      height: 1280,
-      url: "https://hubs-upload-cdn.com/files/4c088350-cf3c-44ad-94d4-62a787d95ced.png",
-      width: 720
-    }
-  },
-  name: "Purp Derp",
-  type: "nft_listing"
-};
+import configs from "../../utils/configs";
 
 function SelectProperty({ options, onChange, children }) {
   const [value, setValue] = useState("Ethereum");

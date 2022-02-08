@@ -59,7 +59,8 @@ AFRAME.registerComponent("media-loader", {
       default: {},
       parse: v => (typeof v === "object" ? v : JSON.parse(v)),
       stringify: JSON.stringify
-    }
+    },
+    nft:{type:"string"}
   },
 
   init() {

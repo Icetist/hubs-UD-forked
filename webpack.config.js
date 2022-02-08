@@ -672,7 +672,9 @@ module.exports = async (env, argv) => {
           APP_CONFIG: appConfig,
           CLIENT_ID: process.env.CLIENT_ID,
           CLIENT_SECRET: process.env.CLIENT_SECRET,
-          REDIRECT_URIS: process.env.REDIRECT_URIS
+          REDIRECT_URIS: process.env.REDIRECT_URIS,
+          MORALIS_KEY:process.env.MORALIS_KEY,
+          INFURA_ID:process.env.INFURA_ID
         })
       })
     ]

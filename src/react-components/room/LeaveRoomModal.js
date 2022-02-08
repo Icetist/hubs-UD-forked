@@ -5,7 +5,7 @@ import { Modal } from "../modal/Modal";
 import { CloseButton } from "../input/CloseButton";
 import { Button } from "../input/Button";
 import { Column } from "../layout/Column";
-
+import {uauth} from '../connector'
 export const LeaveReason = {
   leaveRoom: "leaveRoom",
   joinRoom: "joinRoom",
@@ -52,7 +52,7 @@ export function LeaveRoomModal({ reason, destinationUrl, onClose }) {
     >
       <Column padding center centerMd="both" grow>
         <p>{intl.formatMessage(reasonMessages[reason])}</p>
-        <Button as="a" preset="cancel" href={destinationUrl} rel="noopener noreferrer">
+        <Button as="a" onClick={async ()=> await uauth.uauth.logout()} preset="cancel" href={destinationUrl} rel="noopener noreferrer">
           {intl.formatMessage(confirmationMessages[reason])}
         </Button>
       </Column>

@@ -177,6 +177,12 @@ AFRAME.GLTFModelPlus.registerComponent("media", "media", (el, componentName, com
       persistent: true,
       networkId: componentData.id
     });
+    el.setAttribute("networked", {
+      template: "#interactable-media-nft",
+      owner: "scene",
+      persistent: true,
+      networkId: componentData.id
+    });
   }
 
   const mediaLoaderAttributes = {

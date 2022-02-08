@@ -6,7 +6,7 @@ import configs from "../utils/configs";
 export const injected = new InjectedConnector({supportedChainIds: [1]})
 
 export const walletconnect = new WalletConnectConnector({
-  infuraId: "02e9f596ca64495ca871c9466e395f6a",
+  infuraId: configs.INFURA_ID,
   qrcode: true,
 })
 

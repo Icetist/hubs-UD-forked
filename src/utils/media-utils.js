@@ -183,7 +183,8 @@ if(isNFT) entity.setAttribute("opensea-url", openseaURL);
   // If we're re-pasting an existing src in the scene, we should use the latest version
   // seen across any other entities. Otherwise, start with version 1.
   const version = getLatestMediaVersionOfSrc(src);
-
+  
+//open-media-button
   entity.setAttribute("media-loader", {
     fitToBox,
     resolve,
@@ -193,7 +194,8 @@ if(isNFT) entity.setAttribute("opensea-url", openseaURL);
     contentSubtype,
     fileIsOwned: !needsToBeUploaded,
     linkedEl,
-    mediaOptions
+    mediaOptions,
+ nft:openseaURL
   });
 
   entity.object3D.matrixNeedsUpdate = true;

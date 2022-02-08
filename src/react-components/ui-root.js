@@ -50,7 +50,7 @@ import { MicSetupModalContainer } from "./room/MicSetupModalContainer";
 import { InvitePopoverContainer } from "./room/InvitePopoverContainer";
 import { MoreMenuPopoverButton, CompactMoreMenuButton, MoreMenuContextProvider } from "./room/MoreMenuPopover";
 import { ChatSidebarContainer, ChatContextProvider, ChatToolbarButtonContainer } from "./room/ChatSidebarContainer";
-import { ContentMenu, PeopleMenuButton, ObjectsMenuButton,NFTMenuButton } from "./room/ContentMenu";
+import { ContentMenu, PeopleMenuButton, ObjectsMenuButton, NFTMenuButton } from "./room/ContentMenu";
 import { ReactComponent as CameraIcon } from "./icons/Camera.svg";
 import { ReactComponent as AvatarIcon } from "./icons/Avatar.svg";
 import { ReactComponent as AddIcon } from "./icons/Add.svg";
@@ -95,10 +95,9 @@ import { TipContainer, FullscreenTip } from "./room/TipContainer";
 import { SpectatingLabel } from "./room/SpectatingLabel";
 import { SignInMessages } from "./auth/SignInModal";
 import { MediaDevicesEvents } from "../utils/media-devices-utils";
-
+import { uauth } from "./connector";
 
 // On login button click...
-
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -118,10 +117,9 @@ const isMobile = AFRAME.utils.device.isMobile();
 const isMobileVR = AFRAME.utils.device.isMobileVR();
 const AUTO_EXIT_TIMER_SECONDS = 10;
 
-
 class UIRoot extends Component {
   willCompileAndUploadMaterials = false;
- 
+
   static propTypes = {
     enterScene: PropTypes.func,
     exitScene: PropTypes.func,
@@ -204,8 +202,8 @@ class UIRoot extends Component {
     objectSrc: "",
     sidebarId: null,
     presenceCount: 0,
-    unstoppable:false,
-    unstoppableAuth:null
+    unstoppable: false,
+    unstoppableAuth: null
   };
 
   constructor(props) {
@@ -823,7 +821,7 @@ class UIRoot extends Component {
           roomName={this.props.hub.name}
           showJoinRoom={!this.state.waitingOnAudio && !this.props.entryDisallowed}
           onJoinRoom={() => {
-            this.setState({unstoppable:false})
+            this.setState({ unstoppable: false });
             if (promptForNameAndAvatarBeforeEntry || !this.props.forcedVREntryType) {
               this.setState({ entering: true });
               this.props.hubChannel.sendEnteringEvent();
@@ -838,11 +836,11 @@ class UIRoot extends Component {
               this.handleForceEntry();
             }
           }}
-          onJoinUnstoppable={(status,authorization) => {
-      if(!status) return
-    
-              this.setState({ unstoppable: true });
-                this.setState({ unstoppableAuth: authorization });
+          onJoinUnstoppable={(status, authorization) => {
+            if (!status) return;
+
+            this.setState({ unstoppable: true });
+            this.setState({ unstoppableAuth: authorization });
             if (promptForNameAndAvatarBeforeEntry || !this.props.forcedVREntryType) {
               this.setState({ entering: true });
               this.props.hubChannel.sendEnteringEvent();
@@ -1082,7 +1080,7 @@ class UIRoot extends Component {
               <ProfileEntryPanel
                 {...props}
                 containerType="modal"
-                displayNameOverride={this.state.unstoppable?this.state.unstoppableAuth?.sub:displayNameOverride}
+                displayNameOverride={this.state.unstoppable ? this.state.unstoppableAuth?.sub : displayNameOverride}
                 unstoppable={this.state.unstoppable}
                 finished={() => {
                   if (this.props.forcedVREntryType) {
@@ -1402,12 +1400,13 @@ class UIRoot extends Component {
                     {(!this.props.selectedObject ||
                       (this.props.breakpoint !== "sm" && this.props.breakpoint !== "md")) && (
                       <ContentMenu>
-                        {this.state.unstoppable && showObjectList && (
-                          <NFTMenuButton
-                            active={this.state.sidebarId === "NFT"}
-                            onClick={() => this.toggleSidebar("NFT")}
-                          />
-                        )}
+                        {this.state.unstoppable &&
+                          showObjectList && (
+                            <NFTMenuButton
+                              active={this.state.sidebarId === "NFT"}
+                              onClick={() => this.toggleSidebar("NFT")}
+                            />
+                          )}
                         {showObjectList && (
                           <ObjectsMenuButton
                             active={this.state.sidebarId === "objects"}
@@ -1488,13 +1487,11 @@ class UIRoot extends Component {
                         />
                       )}
                       {this.state.sidebarId === "NFT" && (
-                        <NFTSidebarContainer
-                               onClose={() => this.setSidebar(null)}
-                               scene={this.props.scene}
-                        />
+                        <NFTSidebarContainer onClose={() => this.setSidebar(null)} scene={this.props.scene} />
                       )}
                       {this.state.sidebarId === "people" && (
                         <PeopleSidebarContainer
+                          unstoppable={this.state.unstoppable}
                           displayNameOverride={displayNameOverride}
                           store={this.props.store}
                           mediaSearchStore={this.props.mediaSearchStore}
@@ -1516,6 +1513,7 @@ class UIRoot extends Component {
                           finished={() => this.setSidebar(null)}
                           onClose={() => this.setSidebar(null)}
                           store={this.props.store}
+                          unstoppable={this.state.unstoppable}
                           mediaSearchStore={this.props.mediaSearchStore}
                         />
                       )}
@@ -1640,7 +1638,8 @@ class UIRoot extends Component {
                         icon={<LeaveIcon />}
                         label={<FormattedMessage id="toolbar.leave-room-button" defaultMessage="Leave" />}
                         preset="cancel"
-                        onClick={() => {
+                        onClick={async () => {
+                         
                           this.showNonHistoriedDialog(LeaveRoomModal, {
                             destinationUrl: "/",
                             reason: LeaveReason.leaveRoom

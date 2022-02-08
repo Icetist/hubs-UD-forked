@@ -6,7 +6,7 @@ import { replaceHistoryState } from "../utils/history";
 import { AvatarSettingsSidebar } from "./room/AvatarSettingsSidebar";
 import { AvatarSetupModal } from "./room/AvatarSetupModal";
 import AvatarPreview from "./avatar-preview";
-
+import {uauth} from './connector'
 export default class ProfileEntryPanel extends Component {
   static propTypes = {
     containerType: PropTypes.oneOf(["sidebar", "modal"]),
@@ -50,12 +50,12 @@ export default class ProfileEntryPanel extends Component {
 
   storeUpdated = () => this.setState(this.getStateFromProfile());
 
-  saveStateAndFinish = e => {
+  saveStateAndFinish = async e => {
     e && e.preventDefault();
 
     const { displayName } = this.props.store.state.profile;
     const { hasChangedName } = this.props.store.state.activity;
-
+    const username=uauth.uauth?(await uauth.uauth.user())?.sub:"";
     const hasChangedNowOrPreviously = hasChangedName || this.state.displayName !== displayName;
     this.props.store.update({
       activity: {
@@ -63,7 +63,7 @@ export default class ProfileEntryPanel extends Component {
         hasAcceptedProfile: true
       },
       profile: {
-        displayName: this.props.displayNameOverride ?this.props.displayNameOverride :this.state.displayName,
+        displayName: uauth.uauth?username:this.props.displayNameOverride ?this.props.displayNameOverride :this.state.displayName,
         avatarId: this.state.avatarId
       }
     });

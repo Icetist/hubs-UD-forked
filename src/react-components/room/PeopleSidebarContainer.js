@@ -82,7 +82,8 @@ export function PeopleSidebarContainer({
   performConditionalSignIn,
   onCloseDialog,
   showNonHistoriedDialog,
-  onClose
+  onClose,
+  unstoppable
 }) {
   const people = usePeopleList(presences, mySessionId);
   const [selectedPersonId, setSelectedPersonId] = useState(null);
@@ -98,6 +99,7 @@ export function PeopleSidebarContainer({
     if (selectedPerson.id === mySessionId) {
       return (
         <ProfileEntryPanel
+        unstoppable={unstoppable}
           containerType="sidebar"
           displayNameOverride={displayNameOverride}
           store={store}

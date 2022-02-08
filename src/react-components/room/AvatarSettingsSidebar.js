@@ -13,6 +13,7 @@ export function AvatarSettingsSidebar({ className, showBackButton, onBack, onClo
       beforeTitle={showBackButton ? <BackButton onClick={onBack} /> : <CloseButton onClick={onClose} />}
       className={className}
     >
+
       <AvatarSettingsContent {...rest} />
     </Sidebar>
   );
