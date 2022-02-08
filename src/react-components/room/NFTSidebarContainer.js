@@ -98,6 +98,7 @@ export function NFTSidebarContainer({ onClose, scene }) {
           {nft.map(a => 
             
             <MediaTile
+            onSeeNFT={()=>window.open(`https://opensea.io/assets/${network === "eth" ? "" : "matic/"}${a.token_address}/${a.token_id}`)}
               onClick={() =>
                 scene.emit("add_nft", {
                   src: a.svg?a.svg:a.image,

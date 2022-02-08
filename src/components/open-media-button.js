@@ -100,7 +100,7 @@ AFRAME.registerComponent("open-nft", {
       const mediaLoader = this.targetEl.components["media-loader"].data;
       const src = (this.src = (mediaLoader.mediaOptions && mediaLoader.mediaOptions.href) || mediaLoader.src);
       const visible = src && guessContentType(src) !== "video/vnd.hubs-webrtc";
-     
+     this.nft=this.targetEl.getAttribute("opensea-url")
 
       this.el.object3D.visible = !!visible;
 
@@ -113,7 +113,7 @@ AFRAME.registerComponent("open-nft", {
 
     this.onClick = async () => {
       
-        window.open(this.src);
+        window.open(this.nft);
    
     };
 

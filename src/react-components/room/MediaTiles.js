@@ -129,7 +129,7 @@ CreateTile.propTypes = {
   type: PropTypes.string
 };
 
-export function MediaTile({ entry, processThumbnailUrl, onClick, onEdit, onShowSimilar, onCopy, onInfo, ...rest }) {
+export function MediaTile({ onSeeNFT,entry, processThumbnailUrl, onClick, onEdit, onShowSimilar, onCopy, onInfo, ...rest }) {
   const intl = useIntl();
   const creator = entry.attributions && entry.attributions.creator;
   const publisherName =
@@ -238,7 +238,7 @@ export function MediaTile({ entry, processThumbnailUrl, onClick, onEdit, onShowS
               id: "media-tile.action.show-similar-avatars",
               defaultMessage: "See on Opensea"
             })}
-            
+            onClick={onSeeNFT}
           >
             <EyeIcon />
           </TileAction>
