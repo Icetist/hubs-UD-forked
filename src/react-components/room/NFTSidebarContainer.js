@@ -53,7 +53,7 @@ async function fetchNFT(network) {
     `https://deep-index.moralis.io/api/v2/${address}/nft?chain=${network}&format=decimal`,
     {
       headers: {
-        "X-API-Key": "naobzu29zt4yYeTJMiFe0da95qid61q9tSbYOMiLoW391qXOw78QA9Gg3reEdwwj"
+        "X-API-Key": configs.MORALIS_KEY
       }
     }
   );
