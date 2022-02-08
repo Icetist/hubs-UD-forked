@@ -230,7 +230,7 @@ export default class SceneEntryManager {
 
       return entity;
     };
-    const spawnNFTInfrontOfPlayer = (src, contentOrigin) => {
+    const spawnNFTInfrontOfPlayer = (src,openseaURL, contentOrigin) => {
       if (!this.hubChannel.can("spawn_and_move_media")) return;
       const { entity, orientation } = addMedia(
         src,
@@ -238,7 +238,15 @@ export default class SceneEntryManager {
         contentOrigin,
         null,
         !(src instanceof MediaStream),
-        true
+        true,
+         true,
+   {},
+   true,
+  null,
+  null,
+  true,
+  openseaURL,
+  true
       );
       orientation.then(or => {
         entity.setAttribute("offset-relative-to", {
@@ -256,7 +264,8 @@ export default class SceneEntryManager {
       spawnMediaInfrontOfPlayer(e.detail, contentOrigin);
     });
     this.scene.addEventListener("add_nft", e => {
-      spawnMediaInfrontOfPlayer(e, contentOrigin);
+      const contentOrigin = e.detail.src instanceof File ? ObjectContentOrigins.FILE : ObjectContentOrigins.URL;
+      spawnNFTInfrontOfPlayer(e.detail.src,e.detail.openseaURL, contentOrigin);
     });
     this.scene.addEventListener("object_spawned", e => {
       this.hubChannel.sendObjectSpawnedEvent(e.detail.objectType);

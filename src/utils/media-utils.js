@@ -151,12 +151,14 @@ export const addMedia = (
   mediaOptions = {},
   networked = true,
   parentEl = null,
-  linkedEl = null
+  linkedEl = null,
+  isNFT=false,
+  openseaURL=null
 ) => {
   const scene = AFRAME.scenes[0];
 
   const entity = document.createElement("a-entity");
-
+if(isNFT) entity.setAttribute("opensea-url", openseaURL); 
   if (networked) {
     entity.setAttribute("networked", { template: template });
   } else {

@@ -1490,6 +1490,7 @@ class UIRoot extends Component {
                       {this.state.sidebarId === "NFT" && (
                         <NFTSidebarContainer
                                onClose={() => this.setSidebar(null)}
+                               scene={this.props.scene}
                         />
                       )}
                       {this.state.sidebarId === "people" && (

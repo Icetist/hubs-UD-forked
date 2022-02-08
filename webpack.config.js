@@ -303,6 +303,7 @@ module.exports = async (env, argv) => {
       },
       before: function(app) {
         // Local CORS proxy
+        
         app.all("/cors-proxy/*", (req, res) => {
           res.header("Access-Control-Allow-Origin", "*");
           res.header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS");
