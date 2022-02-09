@@ -3,6 +3,7 @@
 https://user-images.githubusercontent.com/29994250/153095160-d725088a-dbce-4e8f-b8d7-27a86ccca4b1.mp4
 
 Discord ID: spiritbro1#1101
+
 Unstoppable Domain Registered email address: 3aml5sclu@mozmail.com
 
 Mozilla hubs is a 3d meeting tool by mozilla, you can basically create your own 3d environment as you like, in this repository im showing you how you can login with unstoppable and use it as your avatar name and also you can show your NFT, to show off to your friend and you can also open a link to the opensea for that NFT in case your friend want to buy it later.
